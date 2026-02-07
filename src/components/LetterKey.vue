@@ -2,28 +2,35 @@
   <rect ref="keyButton" :x="x" :y="y" rx="5" class="letter-key" @click="handlePress" />
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import { Sound } from '@/utils/Sound'
 
-interface Props {
-  letter: string
-  x: number
-  y: number
-}
+const props = defineProps({
+  letter: {
+    type: String,
+    required: true,
+  },
+  x: {
+    type: Number,
+    required: true,
+  },
+  y: {
+    type: Number,
+    required: true,
+  },
+})
 
-const props = defineProps<Props>()
-
-const keyButton = ref<SVGRectElement>()
+const keyButton = ref(null)
 
 const normalSfx = new Sound(`sfx/normal${props.letter}.wav`)
 const retrySfx = new Sound(`sfx/retry${props.letter}.wav`)
 
 function forceReflow() {
-  keyButton.value!.getBBox()
+  keyButton.value?.getBBox()
 }
 
-function glow(color: string) {
+function glow(color) {
   if (keyButton.value === undefined) {
     return
   }

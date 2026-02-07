@@ -32,16 +32,13 @@
   </g>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { onMounted, ref } from 'vue'
 import { Sound } from '@/utils/Sound'
 import LetterKey from './LetterKey.vue'
 import InputDisplay from './InputDisplay.vue'
 
-const emits = defineEmits<{
-  (e: 'dropObject', input: string): void
-  (e: 'flip'): void
-}>()
+const emits = defineEmits(['dropObject', 'flip'])
 
 const keyRows = [
   ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
@@ -50,8 +47,8 @@ const keyRows = [
   ['U', 'V', 'W', 'X', 'Y', 'Z'],
 ]
 
-const keyButtonRefs = ref<InstanceType<typeof LetterKey>[]>([])
-const inputDisplay = ref<InstanceType<typeof InputDisplay>>()
+const keyButtonRefs = ref([])
+const inputDisplay = ref(null)
 
 const displayText = ref('')
 const isRetrying = ref(false)
@@ -59,7 +56,7 @@ const isRetrying = ref(false)
 const pressSfx = new Sound('sfx/press.wav')
 const recoverSfx = new Sound('sfx/recover.wav')
 
-const keyButtons = new Map<string, InstanceType<typeof LetterKey>>()
+const keyButtons = new Map()
 
 let userInput = ''
 let lastUserInput = ''
@@ -75,7 +72,7 @@ onMounted(() => {
   addEventListener('keydown', handleKeyDown)
 })
 
-function handleKeyDown(event: KeyboardEvent) {
+function handleKeyDown(event) {
   switch (event.key) {
     case 'Enter':
       submit()
@@ -94,7 +91,7 @@ function handleKeyDown(event: KeyboardEvent) {
   }
 }
 
-function handlePress(letter: string) {
+function handlePress(letter) {
   if (isRetrying.value) {
     return
   }
@@ -159,7 +156,7 @@ async function submit(isAfterRetry = false) {
   emits('flip')
   emits('dropObject', lastUserInput)
   recoverSfx.play()
-  inputDisplay.value!.glowText()
+  inputDisplay.value?.glowText()
 
   userInput = ''
   await new Promise((resolve) => setTimeout(resolve, 600))

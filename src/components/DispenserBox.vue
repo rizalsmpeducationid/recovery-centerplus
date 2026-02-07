@@ -48,18 +48,11 @@
   </g>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, onMounted } from 'vue'
 import { parseInput } from '@/utils/parseInput'
 import { getScale } from '@/utils/getScale'
 import { getSource } from '@/utils/getSource'
-
-interface Object {
-  id: number
-  src: string
-  width: number
-  height: number
-}
 
 const position = { X: 535, Y: 538 }
 const size = { X: 577, Y: 126 }
@@ -93,26 +86,26 @@ const backD = computed(
   Z`,
 )
 
-const box = ref<SVGPathElement | null>(null)
-const curObject = ref<Object | null>()
+const box = ref(null)
+const curObject = ref(null)
 const hasBounced = ref(false)
 
-let bounceTimeout: number | null = null
-let animD: SVGAnimateElement | null = null
-let animFill: SVGAnimateElement | null = null
+let bounceTimeout = null
+let animD = null
+let animFill = null
 let objectId = 0
 
 onMounted(() => {
-  animD = box.value!.querySelector('#animD')
-  animFill = box.value!.querySelector('#animFill')
+  animD = box.value?.querySelector('#animD') ?? null
+  animFill = box.value?.querySelector('#animFill') ?? null
 })
 
 function flip() {
-  animD!.beginElement()
-  animFill!.beginElement()
+  animD?.beginElement()
+  animFill?.beginElement()
 }
 
-function preloadImage(src: string): Promise<{ width: number; height: number }> {
+function preloadImage(src) {
   return new Promise((resolve) => {
     const img = new Image()
     img.onload = () => resolve({ width: img.width, height: img.height })
@@ -120,7 +113,7 @@ function preloadImage(src: string): Promise<{ width: number; height: number }> {
   })
 }
 
-async function dropObject(input: string) {
+async function dropObject(input) {
   input = parseInput(input)
 
   const imageSrc = getSource(input)
@@ -145,7 +138,7 @@ async function dropObject(input: string) {
     height: height * scale,
   }
 
-  bounceTimeout = setTimeout(() => {
+  bounceTimeout = window.setTimeout(() => {
     hasBounced.value = true
   }, 150)
 }

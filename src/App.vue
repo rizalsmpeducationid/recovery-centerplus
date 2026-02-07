@@ -13,21 +13,21 @@
   </button>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import LetterKeypad from '@/components/LetterKeypad.vue'
 import DispenserBox from '@/components/DispenserBox.vue'
 
-const dispenserBox = ref<InstanceType<typeof DispenserBox>>()
+const dispenserBox = ref(null)
 const isZoomed = ref(false)
 const isZooming = ref(false)
 
-function dropObject(input: string) {
-  dispenserBox.value!.dropObject(input)
+function dropObject(input) {
+  dispenserBox.value.dropObject(input)
 }
 
 function flip() {
-  dispenserBox.value!.flip()
+  dispenserBox.value.flip()
 }
 
 function toggleZoom() {

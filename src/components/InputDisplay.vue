@@ -10,22 +10,26 @@
   </text>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 
-interface Props {
-  displayText: string
-  isRetrying: boolean
-}
+const props = defineProps({
+  displayText: {
+    type: String,
+    required: true,
+  },
+  isRetrying: {
+    type: Boolean,
+    required: true,
+  },
+})
 
-const props = defineProps<Props>()
+const inputDisplay = ref(null)
 
-const inputDisplay = ref<SVGTextElement>()
-
-let fadeTimeout: number | null = null
+let fadeTimeout = null
 
 function forceTextReflow() {
-  inputDisplay.value!.getBBox()
+  inputDisplay.value?.getBBox()
 }
 
 function glowText() {
@@ -47,8 +51,8 @@ function glowText() {
   inputDisplay.value.style.transition = 'fill 0.3s ease'
   inputDisplay.value.style.fill = ''
 
-  fadeTimeout = setTimeout(() => {
-    inputDisplay.value!.style.transition = 'none'
+  fadeTimeout = window.setTimeout(() => {
+    inputDisplay.value.style.transition = 'none'
   }, 280)
 }
 
