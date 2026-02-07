@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/recovery-centerplus/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/recovery-center/' : '/',
   plugins: [vue(), vueDevTools()],
   resolve: {
     alias: {
