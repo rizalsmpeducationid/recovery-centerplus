@@ -2,14 +2,14 @@ const context = new AudioContext()
 
 export class Sound {
   src = ''
-  buffer: AudioBuffer | null = null
+  buffer = null
 
-  constructor(src: string) {
+  constructor(src) {
     this.src = src
     this.load()
   }
 
-  async load(): Promise<void> {
+  async load() {
     if (!this.src) throw new Error('missing sound src')
     if (this.buffer) return
 
@@ -18,7 +18,7 @@ export class Sound {
     this.buffer = await context.decodeAudioData(arrayBuffer)
   }
 
-  play(): void {
+  play() {
     if (!this.buffer) {
       console.warn('sound not loaded')
       return

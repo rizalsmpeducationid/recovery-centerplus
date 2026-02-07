@@ -4,7 +4,7 @@ const aliases = {
   incometaxreturndocument: 'itrd',
 }
 
-export function parseInput(input: string): string {
+export function parseInput(input) {
   let cleanInput = input
     .toLowerCase()
     .trim()

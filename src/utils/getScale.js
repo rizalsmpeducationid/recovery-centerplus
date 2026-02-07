@@ -1,5 +1,5 @@
 //society if the wiki people scaled their images correctly
-const scaleMap: Record<string, number> = {
+const scaleMap = {
   '8ball': 0.56,
   '9ball': 0.56,
   aduck: 0.4,
@@ -123,6 +123,6 @@ const scaleMap: Record<string, number> = {
   yellowface: 0.608,
 }
 
-export function getScale(src: string): number {
+export function getScale(src) {
   return scaleMap[src] ?? 1
 }
